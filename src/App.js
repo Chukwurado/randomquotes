@@ -9,7 +9,26 @@ export class App extends Component {
     this.state = {
       quotes: [],
       quote: "",
-      author: ""
+      author: "",
+      colors: [
+        "#16a085",
+        "#27ae60",
+        "#2c3e50",
+        "#f39c12",
+        "#e74c3c",
+        "#9b59b6",
+        "#FB6964",
+        "#342224",
+        "#472E32",
+        "#BDBB99",
+        "#77B1A9",
+        "#73A857",
+        "#1b7fbd",
+        "#ff6768",
+        "#484c7f",
+        "#ffbd39",
+        "#6b48ff"
+      ]
     };
   }
 
@@ -28,13 +47,39 @@ export class App extends Component {
         quote: quoteObj.quote,
         author: quoteObj.author
       });
-      //console.log(this.state.quote, this.state.author);
+      this.animateShow();
     } catch (err) {
       console.error(err);
     }
   };
 
-  newQuote = () => {
+  animateShow = () => {
+    var quoteText = document.getElementById("text");
+    var quoteAuthor = document.getElementById("author");
+    quoteText.animate([{ opacity: 0 }, { opacity: 1 }], {
+      duration: 700,
+      fill: "forwards"
+    });
+    quoteAuthor.animate([{ opacity: 0 }, { opacity: 1 }], {
+      duration: 700,
+      fill: "forwards"
+    });
+  };
+
+  animateHide = () => {
+    var quoteText = document.getElementById("text");
+    var quoteAuthor = document.getElementById("author");
+    quoteText.animate([{ opacity: 1 }, { opacity: 0 }], {
+      duration: 700,
+      fill: "forwards"
+    });
+    quoteAuthor.animate([{ opacity: 1 }, { opacity: 0 }], {
+      duration: 700,
+      fill: "forwards"
+    });
+  };
+
+  generateQuote = () => {
     const { quotes } = this.state;
     const randNum = Math.floor(Math.random() * quotes.length);
     const quoteObj = quotes[randNum];
@@ -44,19 +89,63 @@ export class App extends Component {
     });
   };
 
+  newQuote = () => {
+    this.animateHide();
+    setTimeout(() => this.generateQuote(), 700);
+    setTimeout(() => this.animateShow(), 700);
+  };
+
   render() {
-    const { quote, author } = this.state;
+    const { quote, author, colors } = this.state;
+
+    const randColor = colors[Math.floor(Math.random() * colors.length)];
+    const buttonColor = {
+      backgroundColor: randColor
+    };
     return (
-      <div id="wrapper">
+      <div
+        id="wrapper"
+        style={{ backgroundColor: randColor, color: randColor }}
+      >
         <div id="quote-box">
           <div id="text">
-            <h1>{quote}</h1>
+            <h1>
+              <i className="fas fa-quote-left" />
+              {" " + quote}
+            </h1>
           </div>
-          <div className="author">{author}</div>
-          <a id="tweet-quote" href="https://twitter.com/intent/tweet">
-            <button className="tweet-button">Tweet Quote</button>
+          <div id="author">
+            <h3>{author}</h3>
+          </div>
+          <a
+            id="tweet-quote"
+            href={
+              "https://twitter.com/intent/tweet?text=" +
+              encodeURIComponent('"' + quote + '" \n' + author)
+            }
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <button id="tweet-button" style={buttonColor}>
+              <i class="fab fa-twitter" />
+            </button>
           </a>
-          <button id="new-quote" onClick={this.newQuote}>
+          <a
+            rel="noopener noreferrer"
+            target="_blank"
+            href={
+              "https://www.tumblr.com/widgets/share/tool?posttype=quote&tags=quotes,freecodecamp&caption=" +
+              encodeURIComponent(author) +
+              "&content=" +
+              encodeURIComponent(quote) +
+              "&canonicalUrl=https%3A%2F%2Fwww.tumblr.com%2Fbuttons&shareSource=tumblr_share_button"
+            }
+          >
+            <button id="tumblr-button" style={buttonColor}>
+              <i class="fab fa-tumblr" />
+            </button>
+          </a>
+          <button id="new-quote" onClick={this.newQuote} style={buttonColor}>
             New Quote
           </button>
         </div>

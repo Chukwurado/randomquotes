@@ -1,15 +1,44 @@
+button {
+  border: none;
+  padding: 10px;
+  color: white;
+  font-size: 1rem;
+  border-radius: 5px;
+  min-width: 40px;
+  transition: 1s;
+}
+
+#author {
+  text-align: right;
+}
+
+#new-quote {
+  position: absolute;
+  right: 30px;
+}
+
+#new-quote:focus {
+  outline: none;
+}
+
+#tumblr-button {
+  margin-left: 10px;
+}
+
 #wrapper {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: 1s;
 }
 
 #quote-box {
   border: solid 1px;
-  min-height: 250px;
-  transition: 0.5s;
-  padding: 20px;
+  padding: 30px;
+  position: relative;
+  background-color: rgb(241, 245, 220);
+  border-radius: 5px;
 }
 
 @media (min-width: 1200px) {
