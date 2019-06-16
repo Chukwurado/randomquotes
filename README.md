@@ -1,3 +1,3 @@
 # randomquotes
 
-https://codepen.io/freeCodeCamp/full/qRZeGZ
+https://codepen.io/chukwurado/full/WqwwdY
